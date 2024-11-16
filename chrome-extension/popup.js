@@ -9,6 +9,28 @@ document.getElementById("fetchData").addEventListener("click", () => {
     });
 });
 
+document.getElementById("submitButton").addEventListener("click", () => {
+  const userInput = document.getElementById("userInput").value;
+
+  if (userInput) {
+    // send input to flask 
+    fetch('http://localhost:5000/save-input', {
+      method: 'POST', headers: {
+        'Content-type' : 'aplication/json'
+      },
+      body: JSON.stringify({ input: userInput});
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Input saved: ", data)
+    })
+    .catch(error => {
+      console.error("Error saving input:", error);
+    });
+  } else {
+    console.log("No input provided.");
+  }
+});
 
 document.getElementById("extract").addEventListener("click", () => {
   // Inject and run the content script in the active tab
