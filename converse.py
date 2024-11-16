@@ -17,10 +17,10 @@ client = boto3.client(
 )
 
 # The model ID for the model you want to use
-model_id = "us.meta.llama3-2-3b-instruct-v1:0"
+model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
 
 # The message you want to send to the model
-user_message = "Summarize AWS"
+user_message = "What is the size of the universe?"
 
 conversation = [
     {

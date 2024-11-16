@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "A Chrome extension that interacts with a Flask app for INRIX Hackathon 2024.",
     "permissions": ["activeTab", "scripting", "storage"],
-    "host_permissions": ["http://localhost:5000/*"],
+    "host_permissions": ["<all_urls>"],
     "action": {
       "default_popup": "popup.html",
       "default_icon": "icon.png"
