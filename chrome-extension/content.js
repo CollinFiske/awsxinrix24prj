@@ -1,3 +1,5 @@
+console.log("Content Script Loaded");
+
 const currentDomain = new URL(window.location.href).hostname;
 
 
