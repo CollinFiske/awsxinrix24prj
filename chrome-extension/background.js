@@ -1,9 +1,12 @@
+
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Chrome extension installed");
 });
 
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log("Hello! I am here and i am gay");
   if (message.tableData) {
     console.log("Table Data Received:", message.tableData);
 

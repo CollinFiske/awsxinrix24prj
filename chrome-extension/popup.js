@@ -5,7 +5,6 @@ document.getElementById("submitButton").addEventListener("click", () => {
 
   console.log("User Input ", userInput);
 
-  
 });
 
 document.getElementById("extract").addEventListener("click", () => {

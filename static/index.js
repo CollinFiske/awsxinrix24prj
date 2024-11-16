@@ -17,4 +17,5 @@ submitButton.addEventListener('click', () => {
     console.log("Value 1 --> " + value1);
     console.log("Value 2 --> " + value2);
     console.log("LargeValue --> " + largeValue);
+    console.log(" ");
 });
