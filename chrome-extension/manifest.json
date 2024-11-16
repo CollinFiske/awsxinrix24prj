@@ -3,7 +3,7 @@
     "name": "INRIX24' Chrome Extension",
     "version": "1.0",
     "description": "A Chrome extension that interacts with a Flask app for INRIX Hackathon 2024.",
-    "permissions": ["activeTab", "scripting", "storage"],
+    "permissions": ["activeTab", "scripting", "storage", "downloads"],
     "host_permissions": ["<all_urls>"],
     "action": {
       "default_popup": "popup.html",
