@@ -18,7 +18,7 @@ document.getElementById("submitButton").addEventListener("click", () => {
       method: 'POST', headers: {
         'Content-type' : 'aplication/json'
       },
-      body: JSON.stringify({ input: userInput});
+      body: JSON.stringify({ input: userInput})
     })
     .then(response => response.json())
     .then(data => {
