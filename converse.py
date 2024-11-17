@@ -2,6 +2,7 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from dotenv import load_dotenv
+import requests
 
 from flask import Flask, request, jsonify
 
@@ -60,10 +61,14 @@ def get_input():
             if "contentBlockDelta" in chunk:
                 response_text += chunk["contentBlockDelta"]["delta"]["text"]
 
+        # Send the response to the Chrome extension
+        extension_url = "http://localhost:5001/extension_endpoint"  # Replace with your extension's endpoint
+        requests.post(extension_url, json={"response": response_text})
         return jsonify({"message": "Input received", "processed_message": processed_message, "response": response_text})
 
-    except (ClientError, Exception) as e:
-        return jsonify({"error": str(e)}), 500
+
+    except (Exception) as e:
+        return jsonify({"error": str(e)})
 
 if __name__ == '__main__':
     load_dotenv()
