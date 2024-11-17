@@ -36,13 +36,14 @@ def get_input():
     data = request.get_json()
     user_message = data.get('user_message')
     web_name = data.get('web_name')
+    callback_url = data.get("callback_url")
 
     # Print the input values to the console for debugging
     print(f"Received user_message: {user_message}")
     print(f"Received web_name: {web_name}")
 
     # Check if either user_message or web_name is missing
-    if not user_message or not web_name:
+    if not user_message or not web_name or not callback_url:
         return jsonify({"error": "Missing user_message or web_name"}), 400
 
     # Process the data (example: just echoing the received message)
@@ -56,7 +57,7 @@ def get_input():
 
     try:
         streaming_response = client.converse_stream(
-            modelId=model_id,
+            modelId="anthropic.claude-3-sonnet-20240229-v1:0",
             messages=conversation,
             inferenceConfig={"maxTokens": 512, "temperature": 0.6, "topP": 0.6},
         )
@@ -68,9 +69,9 @@ def get_input():
                 response_text += chunk["contentBlockDelta"]["delta"]["text"]
 
         # Send the response to the Chrome extension
-        extension_url = "http://localhost:5001/extension_endpoint"  # Replace with your extension's endpoint
-        requests.post(extension_url, json={"response": response_text})
-        return jsonify({response_text})
+        response = requests.post(callback_url, json={"response": response_text})
+        print(f"Sent response to callback URL: {response.status_code}")
+        return jsonify({"status": "success"})
 
     except (Exception) as e:
         return jsonify({"error": str(e)})

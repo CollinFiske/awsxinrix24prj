@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Get the current tab URL
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const currentUrl = tabs[0].url;
+        const callbackUrl = "http://127.0.0.1:5000/callback"; // Replace with your actual callback URL
 
         // Send input to Flask backend
         fetch("http://127.0.0.1:5000/converse", {
@@ -23,7 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_message: userInput, web_name: currentUrl }),
+          body: JSON.stringify({
+            user_message: userInput,
+            web_name: currentUrl,
+            callback_url: callbackUrl
+          }),
         })
           .then((response) => response.json())
           .then((data) => {
