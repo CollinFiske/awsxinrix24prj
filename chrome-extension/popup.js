@@ -1,10 +1,10 @@
+console.log("Script Loaded");
+
 let userInput = "";
 
 document.getElementById("submitButton").addEventListener("click", () => {
   userInput = document.getElementById("userInput").value;
-
   console.log("User Input ", userInput);
-
 });
 
 document.getElementById("extract").addEventListener("click", () => {
