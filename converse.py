@@ -73,8 +73,8 @@ def get_input():
 
         # Send the response to the Chrome extension
         response = requests.post(callback_url, json={"response": response_text})
-        print(f"Sent response to callback URL: {response.status_code}, response: {response_text}")
-        return jsonify({"status": "success"})
+        print(f"Sent response to callback URL: {response.status_code}")
+        return jsonify({"response": response_text})
 
     except (Exception) as e:
         return jsonify({"error": str(e)})

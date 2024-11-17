@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
           .then((response) => response.json())
           .then((data) => {
-            print("Received data:" + data);
+              console.log(data)
               outputParagraph.textContent = "Response: " + data.response;
           })
           .catch((error) => {

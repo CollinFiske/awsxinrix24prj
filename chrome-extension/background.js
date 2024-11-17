@@ -26,8 +26,3 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "response") {
-    chrome.runtime.sendMessage({ type: "response", data: message.data });
-  }
-});
