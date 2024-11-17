@@ -6,6 +6,7 @@ import requests
 
 from flask import Flask, request, jsonify
 
+# Initialize Flask app
 app = Flask(__name__)
 
 def process_user_message(user_message, web_name):
@@ -34,12 +35,23 @@ def process_user_message(user_message, web_name):
 
 @app.route('/input', methods=['POST'])
 def get_input():
+    # Extract data from the incoming JSON request
     user_message = request.json.get('user_message')
     web_name = request.json.get('web_name')
-    processed_message = process_user_message(user_message, web_name)
-    
-    # The model ID for the model you want to use
-    model_id = "us.meta.llama3-2-3b-instruct-v1:0"
+
+    # Print the input values to the console for debugging
+    print(f"Received user_message: {user_message}")
+    print(f"Received web_name: {web_name}")
+
+    # Check if either user_message or web_name is missing
+    if not user_message or not web_name:
+        return jsonify({"error": "Missing user_message or web_name"}), 400
+
+    # Process the data (example: just echoing the received message)
+    processed_message = f"Received message: {user_message} from {web_name}"
+
+    # The model ID for the model you want to use (adjust the model ID accordingly)
+    model_id = "us.meta.llama3-2-3b-instruct-v1:0"  # Change if necessary
 
     conversation = [
         {
@@ -49,15 +61,16 @@ def get_input():
     ]
 
     try:
+        # Request to Bedrock API for streaming conversation
         streaming_response = client.converse_stream(
             modelId=model_id,
             messages=conversation,
             inferenceConfig={"maxTokens": 512, "temperature": 0.6, "topP": 0.6},
         )
 
-        # Extract and print the streamed response text in real-time.
+        # Extract and build the streamed response text in real-time
         response_text = ""
-        for chunk in streaming_response["stream"]:
+        for chunk in streaming_response.get("stream", []):
             if "contentBlockDelta" in chunk:
                 response_text += chunk["contentBlockDelta"]["delta"]["text"]
 
