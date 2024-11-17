@@ -2,51 +2,49 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputField = document.getElementById("userInput");
   const submitButton = document.getElementById("submitButton");
   const outputParagraph = document.getElementById("output");
+  const userForm = document.getElementById("userForm");
 
-  // Get the current tab URL
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    const currentUrl = tabs[0].url;
+  function handleSubmit(event) {
+    event.preventDefault(); // Prevent default form submission
 
-    submitButton.addEventListener("click", function () {
-      const userInput = inputField.value;
+    const userInput = inputField.value; // Get user input
 
-      if (userInput && currentUrl) {
-        outputParagraph.textContent = "Processing...";
-        outputParagraph.classList.remove("hidden");
+    if (userInput) {
+      outputParagraph.textContent = "Processing...";
+      outputParagraph.classList.remove("hidden");
 
-        const savedInput = {
-          input: userInput,
-          url: currentUrl
-        };
+      // Get the current tab URL
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        const currentUrl = tabs[0].url;
 
-        console.log("Sending data to Flask:", savedInput);
-
+        // Send input to Flask backend
         fetch("http://127.0.0.1:5000/converse", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_message: savedInput.input, web_name: savedInput.url }),
+          body: JSON.stringify({ user_message: userInput, web_name: currentUrl }),
         })
-          .then((response) => {
-            console.log("Received response:", response);
-            return response.json();
-          })
+          .then((response) => response.json())
           .then((data) => {
-            console.log("Received data:", data);
-            if (data.message) {
-              outputParagraph.textContent = "Flask Response: " + data.message;
+            if (data.response) {
+              outputParagraph.textContent = "Response: " + data.response;
             } else {
               outputParagraph.textContent = "Error: " + data.error;
             }
           })
           .catch((error) => {
-            console.error("Error sending data to Flask:", error);
             outputParagraph.textContent = "Error sending data to Flask: " + error;
           });
-      } else {
-        console.warn("User input or current URL is missing");
-      }
-    });
-  });
+      });
+    } else {
+      outputParagraph.classList.add("hidden");
+    }
+
+    // Clear input field after submission
+    inputField.value = "";
+  }
+
+  submitButton.addEventListener("click", handleSubmit);
+  userForm.addEventListener("submit", handleSubmit);
 });

@@ -1,3 +1,5 @@
+## AskRON - the Reliable Option for Navigation, a chrome extension for AI assisted browsing. Powered by AWS Bedrock's Claude Sonnet and easy to access with Google's web extension capabilities.
+
 ## Inspiration
 The need for seamless, AI-powered assistance while browsing the web without switching between multiple tabs or applications.
 ## What it does
