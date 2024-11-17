@@ -10,12 +10,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const inputField = document.getElementById("userInput");
   const submitButton = document.getElementById("submitButton");
+  const outputParagraph = document.getElementById("output");
 
   submitButton.addEventListener("click", function () {
     const userInput = inputField.value;
 
     // Save the user input and current URL
     saveUserInput(userInput, currentUrl);
+    // Alert for debugging
+    if (savedInput) {
+      outputParagraph.textContent = "Saved User Input: " + savedInput;
+      outputParagraph.classList.remove("hidden");
+    } else {
+      outputParagraph.classList.add("hidden");
+    }
 
     // Send the input and URL to Flask (adjusting for the new field names)
     fetch("http://127.0.0.1:5000/input", {
