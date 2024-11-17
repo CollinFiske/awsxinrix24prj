@@ -10,12 +10,23 @@
       <h1>AskRon!</h1>
       <label for="userInput">Ask Ron any question about this website, and he'll answer it!</label>
       <input type="text" id="userInput" placeholder="Ask here...">
-      <button type="submit" id="submitButton">Submit</button>
-      <p id="output" class="hidden"></p>
+      <button id="submitButton">Submit</button>
     </div>
     
     
     <script src="popup.js"></script>
     <script src="background.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Saved URL</title>
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <h3>Current Page URL</h3>
+  <div id="urlDisplay">Loading...</div>
 </body>
 </html>

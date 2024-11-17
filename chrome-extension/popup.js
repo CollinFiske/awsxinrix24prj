@@ -11,11 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputField = document.getElementById("userInput");
   const submitButton = document.getElementById("submitButton");
   const outputParagraph = document.getElementById("output");
+<<<<<<< HEAD
   
   // Event listener for form submission
+=======
+
+>>>>>>> 6f8bb0632692e31f6bc3b167eb5c59c61dafe1fe
   submitButton.addEventListener("click", function () {
     const userInput = inputField.value;
 
+<<<<<<< HEAD
     if (userInput && currentUrl) {
       outputParagraph.textContent = "Processing...";
       outputParagraph.classList.remove("hidden");
@@ -44,9 +49,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
       inputField.value = ""; // Clear the input field after sending the request
+=======
+    // Alert for debugging
+    if (savedInput) {
+      outputParagraph.textContent = "Saved User Input: " + savedInput;
+      outputParagraph.classList.remove("hidden");
+>>>>>>> 6f8bb0632692e31f6bc3b167eb5c59c61dafe1fe
     } else {
       outputParagraph.textContent = "Please enter a message and ensure the URL is valid.";
     }
+<<<<<<< HEAD
   });
 
   // Function to save the user input and current URL
@@ -58,3 +70,49 @@ document.addEventListener("DOMContentLoaded", function () {
     return { input: window.userInput, url: window.currentUrl };
   }
 });
+=======
+
+    // **New feature: Retrieve the current URL from the background script**
+    chrome.runtime.sendMessage({ action: "getCurrentUrl" }, (response) => {
+      if (response.status === "success") {
+        const currentUrl = response.url; // Current page URL
+        // **Updated feature: Include the URL in the POST request to Flask**
+        fetch("http://127.0.0.1:5000/api/data", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: savedInput, url: currentUrl }), // Include URL
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Response from Flask:", data);
+          })
+          .catch((error) => {
+            console.error("Error sending data to Flask:", error);
+          });
+      } else {
+        console.error("Failed to retrieve URL."); // Error handling if URL retrieval fails
+      }
+    });
+
+    // Clear input field after submission
+    inputField.value = "";
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const urlDisplay = document.getElementById("urlDisplay");
+
+  // Automatically request the URL from the background script
+  chrome.runtime.sendMessage({ action: "getCurrentUrl" }, (response) => {
+    if (response.status === "success") {
+      urlDisplay.textContent = `Current URL: ${response.url}`;
+      urlDisplay.classList.remove("hidden");
+    } else {
+      urlDisplay.textContent = "Failed to retrieve URL.";
+      urlDisplay.classList.remove("hidden");
+    }
+  });
+});
+>>>>>>> 6f8bb0632692e31f6bc3b167eb5c59c61dafe1fe
