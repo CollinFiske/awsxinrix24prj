@@ -1,42 +1,40 @@
-function saveUserInput(input) {
-  window.userInput = input; // Save input globally for debugging
-  return window.userInput;
-}
+let currentUrl = ''; // To store the current tab's URL
 
+// When the popup is opened, get the current tab URL
 document.addEventListener("DOMContentLoaded", function () {
+  // Get the URL of the current active tab
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    currentUrl = tabs[0].url;
+    console.log("Current URL: ", currentUrl); // Log the current URL for debugging
+  });
+
   const inputField = document.getElementById("userInput");
   const submitButton = document.getElementById("submitButton");
   const outputParagraph = document.getElementById("output");
-  const userForm = document.getElementById("userForm");
-
-  function handleSubmit(event) {
-    event.preventDefault(); // Prevent default form submission
-
+  
+  // Event listener for form submission
   submitButton.addEventListener("click", function () {
-    const userInput = inputField.value; // Get user input
-    const savedInput = saveUserInput(userInput); // Save input
+    const userInput = inputField.value;
 
-<<<<<<< HEAD
-    // Save the user input and current URL
-    saveUserInput(userInput, currentUrl);
-<<<<<<< Updated upstream
-    // Alert for debugging
-    if (savedInput) {
+    if (userInput && currentUrl) {
       outputParagraph.textContent = "Processing...";
       outputParagraph.classList.remove("hidden");
 
-      // Send input to Flask backend
-      fetch("http://127.0.0.1:5000/api/data", {
+      // Save the user input and current URL
+      const savedInput = saveUserInput(userInput, currentUrl);
+
+      // Send the input and URL to Flask backend
+      fetch("http://127.0.0.1:5000/input", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: savedInput }),
+        body: JSON.stringify({ user_message: savedInput.input, web_name: savedInput.url }), // Send both user_input and url
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.response) {
-            outputParagraph.textContent = "Response: " + data.response;
+          if (data.message) {
+            outputParagraph.textContent = "Flask Response: " + data.message;
           } else {
             outputParagraph.textContent = "Error: " + data.error;
           }
@@ -44,36 +42,19 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((error) => {
           outputParagraph.textContent = "Error sending data to Flask: " + error;
         });
+
+      inputField.value = ""; // Clear the input field after sending the request
     } else {
-      outputParagraph.classList.add("hidden");
+      outputParagraph.textContent = "Please enter a message and ensure the URL is valid.";
     }
-=======
-
->>>>>>> Stashed changes
-    // Send the input and URL to Flask (adjusting for the new field names)
-    fetch("http://127.0.0.1:5000/input", {
-=======
-    // Alert for debugging
-    alert("Saved User Input: " + savedInput);
-
-    // Send input to Flask backend
-    fetch("http://127.0.0.1:5000/api/data", {
->>>>>>> parent of f2b37ab (Get url and log for debugging)
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt: savedInput }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from Flask:", data);
-      })
-      .catch((error) => {
-        console.error("Error sending data to Flask:", error);
-      });
-
-    // Clear input field after submission
-    inputField.value = "";
   });
+
+  // Function to save the user input and current URL
+  function saveUserInput(input, url) {
+    window.userInput = input;
+    window.currentUrl = url;
+    console.log("User Input: ", window.userInput);
+    console.log("Current URL: ", window.currentUrl);
+    return { input: window.userInput, url: window.currentUrl };
+  }
 });
