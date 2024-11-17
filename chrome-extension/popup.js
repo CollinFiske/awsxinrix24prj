@@ -1,8 +1,33 @@
+function saveUserInput(input) {
+  window.userInput = input;
+  return window.userInput;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-  const userInput = document.getElementById("userInput"); // Reference to the input field
-  const submitButton = document.getElementById("submitButton"); // Reference to the button
+  const inputField = document.getElementById("userInput");
+  const submitButton = document.getElementById("submitButton");
 
   submitButton.addEventListener("click", function () {
+    const userInput = inputField.value;
+
+    const savedInput = saveUserInput(userInput);
+
+    alert("Saved User Input: " + savedInput);
+
+    fetch("http://127.0.0.1:5000/api/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt: savedInput }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response from Flask:", data);
+      })
+      .catch((error) => {
+        console.error("Error sending data to Flask:", error);
+      });
     const userValue = userInput.value; // Use a new variable to store the value
 
     alert("Skibidi Sigma Mog Rizzler: " + userValue);
