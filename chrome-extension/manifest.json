@@ -3,7 +3,7 @@
   "name": "AskRon",
   "version": "1.0",
   "description": "AskRon - A Chrome extension that interacts with a Flask server to assist users in navigating webpages. Made for INRIX Hackathon 2024.",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "tabs", "scripting", "storage"],
   "host_permissions": ["http://127.0.0.1:5000/*"],
   "icons": {
     "16": "icon.png",        
