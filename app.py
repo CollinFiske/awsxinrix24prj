@@ -2,16 +2,15 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS to allow communication from the extension
 
+# Route to receive user input
 @app.route('/api/data', methods=['POST'])
 def receive_data():
-    # Get the data sent by the extension
-    data = request.json
-    user_prompt = data.get('prompt')
-    print(f"Received from Chrome Extension: {user_prompt}")
-    # Return a response to the extension
-    return jsonify({"message": "Data received successfully", "received_prompt": user_prompt})
+    data = request.json  # Parse JSON data from the request
+    user_input = data.get('prompt')  # Extract the 'prompt' field
+    print(f"Received from Chrome Extension: {user_input}")
+    return jsonify({"message": "Data received", "received_prompt": user_input})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,5 +1,5 @@
 function saveUserInput(input) {
-  window.userInput = input;
+  window.userInput = input; // Save input globally for debugging
   return window.userInput;
 }
 
@@ -8,12 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const submitButton = document.getElementById("submitButton");
 
   submitButton.addEventListener("click", function () {
-    const userInput = inputField.value;
+    const userInput = inputField.value; // Get user input
+    const savedInput = saveUserInput(userInput); // Save input
 
-    const savedInput = saveUserInput(userInput);
-
+    // Alert for debugging
     alert("Saved User Input: " + savedInput);
 
+    // Send input to Flask backend
     fetch("http://127.0.0.1:5000/api/data", {
       method: "POST",
       headers: {
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error sending data to Flask:", error);
       });
 
-    userInput.value = ""; // Clear the input field
+    // Clear input field after submission
+    inputField.value = "";
   });
 });
