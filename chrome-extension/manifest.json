@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "AskRon",
+  "name": "AskRON",
   "version": "1.0",
   "description": "AskRon - A Chrome extension that interacts with a Flask server to assist users in navigating webpages. Made for INRIX Hackathon 2024.",
   "permissions": ["activeTab", "tabs", "scripting", "storage"],
