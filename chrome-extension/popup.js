@@ -10,3 +10,4 @@ document.addEventListener("DOMContentLoaded", function () {
     userInput.value = ""; // Clear the input field
   });
 });
+
