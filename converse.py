@@ -33,7 +33,7 @@ def process_user_message(user_message, web_name):
 
     return returnVal
 
-@app.route('/input', methods=['POST'])
+@app.route('/converse', methods=['POST'])
 def get_input():
     # Extract data from the incoming JSON request
     user_message = request.json.get('user_message')
@@ -48,7 +48,7 @@ def get_input():
         return jsonify({"error": "Missing user_message or web_name"}), 400
 
     # Process the data (example: just echoing the received message)
-    processed_message = f"Received message: {user_message} from {web_name}"
+    processed_message = process_user_message(user_message, web_name)
 
     # The model ID for the model you want to use (adjust the model ID accordingly)
     model_id = "us.meta.llama3-2-3b-instruct-v1:0"  # Change if necessary
