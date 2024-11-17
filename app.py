@@ -1,9 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS to allow communication from the extension
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 # Route to receive user input
 @app.route('/api/data', methods=['POST'])
 def receive_data():
