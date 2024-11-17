@@ -7,21 +7,13 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-def process_user_message(user_message, web_name):
-    return f"{user_message} on the website {web_name}."
-
-@app.route('/input', methods=['POST'])
+@app.route('/api/data', methods=['POST'])
 def get_input():
-    user_message = request.json.get('user_message')
-    web_name = request.json.get('web_name')
-    processed_message = process_user_message(user_message, web_name)
-    
-    # The model ID for the model you want to use
-    model_id = "us.meta.llama3-2-3b-instruct-v1:0"
+    data = request.get_json()
+    processed_message = data.get('prompt', '')
 
     conversation = [
         {
-            "role": "user",
             "content": [{"text": processed_message}],
         }
     ]
@@ -57,5 +49,7 @@ if __name__ == '__main__':
         aws_secret_access_key=secret_access_key,
         region_name="us-west-2",
     )
+
+    model_id = "your_model_id"  # Replace with your actual model ID
 
     app.run(debug=True)
