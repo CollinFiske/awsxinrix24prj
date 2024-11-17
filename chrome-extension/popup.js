@@ -7,73 +7,59 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputField = document.getElementById("userInput");
   const submitButton = document.getElementById("submitButton");
   const outputParagraph = document.getElementById("output");
-  const userForm = document.getElementById("userForm");
-
-  function handleSubmit(event) {
-    event.preventDefault(); // Prevent default form submission
 
   submitButton.addEventListener("click", function () {
     const userInput = inputField.value; // Get user input
     const savedInput = saveUserInput(userInput); // Save input
 
-<<<<<<< HEAD
-    // Save the user input and current URL
-    saveUserInput(userInput, currentUrl);
-<<<<<<< Updated upstream
     // Alert for debugging
     if (savedInput) {
-      outputParagraph.textContent = "Processing...";
+      outputParagraph.textContent = "Saved User Input: " + savedInput;
       outputParagraph.classList.remove("hidden");
-
-      // Send input to Flask backend
-      fetch("http://127.0.0.1:5000/api/data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: savedInput }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.response) {
-            outputParagraph.textContent = "Response: " + data.response;
-          } else {
-            outputParagraph.textContent = "Error: " + data.error;
-          }
-        })
-        .catch((error) => {
-          outputParagraph.textContent = "Error sending data to Flask: " + error;
-        });
     } else {
       outputParagraph.classList.add("hidden");
     }
-=======
 
->>>>>>> Stashed changes
-    // Send the input and URL to Flask (adjusting for the new field names)
-    fetch("http://127.0.0.1:5000/input", {
-=======
-    // Alert for debugging
-    alert("Saved User Input: " + savedInput);
-
-    // Send input to Flask backend
-    fetch("http://127.0.0.1:5000/api/data", {
->>>>>>> parent of f2b37ab (Get url and log for debugging)
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt: savedInput }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from Flask:", data);
-      })
-      .catch((error) => {
-        console.error("Error sending data to Flask:", error);
-      });
+    // **New feature: Retrieve the current URL from the background script**
+    chrome.runtime.sendMessage({ action: "getCurrentUrl" }, (response) => {
+      if (response.status === "success") {
+        const currentUrl = response.url; // Current page URL
+        // **Updated feature: Include the URL in the POST request to Flask**
+        fetch("http://127.0.0.1:5000/api/data", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: savedInput, url: currentUrl }), // Include URL
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Response from Flask:", data);
+          })
+          .catch((error) => {
+            console.error("Error sending data to Flask:", error);
+          });
+      } else {
+        console.error("Failed to retrieve URL."); // Error handling if URL retrieval fails
+      }
+    });
 
     // Clear input field after submission
     inputField.value = "";
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const urlDisplay = document.getElementById("urlDisplay");
+
+  // Automatically request the URL from the background script
+  chrome.runtime.sendMessage({ action: "getCurrentUrl" }, (response) => {
+    if (response.status === "success") {
+      urlDisplay.textContent = `Current URL: ${response.url}`;
+      urlDisplay.classList.remove("hidden");
+    } else {
+      urlDisplay.textContent = "Failed to retrieve URL.";
+      urlDisplay.classList.remove("hidden");
+    }
   });
 });
