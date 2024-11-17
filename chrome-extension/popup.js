@@ -1,10 +1,14 @@
-console.log("Script Loaded");
+document.addEventListener("DOMContentLoaded", function() {
+  const userInput = document.getElementById("userInput");
+  const submitButton = document.getElementById("submitButton");
 
-let userInput = "";
+  submitButton.addEventListener("click", function() {
+    const userInput = userInput.value;
 
-document.getElementById("submitButton").addEventListener("click", () => {
-  userInput = document.getElementById("userInput").value;
-  console.log("User Input ", userInput);
+    alert("User Input: " + userInput);
+
+    inputField.value = "";
+  });
 });
 
 document.getElementById("extract").addEventListener("click", () => {
