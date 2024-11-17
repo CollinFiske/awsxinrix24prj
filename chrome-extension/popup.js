@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Save the user input and current URL
     saveUserInput(userInput, currentUrl);
+<<<<<<< Updated upstream
     // Alert for debugging
     if (savedInput) {
       outputParagraph.textContent = "Processing...";
@@ -48,6 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       outputParagraph.classList.add("hidden");
     }
+=======
+
+>>>>>>> Stashed changes
     // Send the input and URL to Flask (adjusting for the new field names)
     fetch("http://127.0.0.1:5000/input", {
       method: "POST",
