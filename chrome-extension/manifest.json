@@ -1,26 +1,22 @@
 {
-  "manifest_version": 3,
-  "name": "INRIX24' Chrome Extension",
-  "version": "1.0",
-  "description": "A Chrome extension that interacts with a Flask app for INRIX Hackathon 2024.",
-  "permissions": ["activeTab", "scripting", "storage"],
-  "host_permissions": ["http://localhost:5000/*"],
-  "icons": {
-    "16": "icon.png",        
-    "32": "icon2.png",       
-    "48": "icon3.png",       
-    "128": "icon4.png"       
-  },
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icon.png",
-      "32": "icon2.png",
-      "48": "icon3.png",
-      "128": "icon4.png"
+    "manifest_version": 3,
+    "name": "INRIX24' Chrome Extension",
+    "version": "1.0",
+    "description": "A Chrome extension that interacts with a Flask app for INRIX Hackathon 2024.",
+    "permissions": ["activeTab", "scripting", "storage", "downloads"],
+    "host_permissions": ["http://localhost:5000/*"],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
-  },
-  "background": {
-    "service_worker": "background.js"
+    ]
   }
-}
