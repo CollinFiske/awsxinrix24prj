@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   submitButton.addEventListener("click", function () {
     const userValue = userInput.value; // Use a new variable to store the value
 
-    alert("User Input: " + userValue);
+    alert("User Input = " + userValue);
 
     userInput.value = ""; // Clear the input field
   });
