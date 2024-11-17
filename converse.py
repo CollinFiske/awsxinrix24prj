@@ -41,23 +41,26 @@ def get_input():
     # Print the input values to the console for debugging
     print(f"Received user_message: {user_message}")
     print(f"Received web_name: {web_name}")
+    print(f"Received web_name: {callback_url}")
+
 
     # Check if either user_message or web_name is missing
     if not user_message or not web_name or not callback_url:
         return jsonify({"error": "Missing user_message or web_name"}), 400
 
+    model_id = "anthropic.claude-3-sonnet-20240229-v1:0"    
+
     # Process the data (example: just echoing the received message)
     processed_message = process_user_message(user_message, web_name)
-
     conversation = [
         {
+            "role": "user",
             "content": [{"text": processed_message}],
         }
     ]
-
     try:
         streaming_response = client.converse_stream(
-            modelId="anthropic.claude-3-sonnet-20240229-v1:0",
+            modelId=model_id,
             messages=conversation,
             inferenceConfig={"maxTokens": 512, "temperature": 0.6, "topP": 0.6},
         )
@@ -70,11 +73,18 @@ def get_input():
 
         # Send the response to the Chrome extension
         response = requests.post(callback_url, json={"response": response_text})
-        print(f"Sent response to callback URL: {response.status_code}")
+        print(f"Sent response to callback URL: {response.status_code}, response: {response_text}")
         return jsonify({"status": "success"})
 
     except (Exception) as e:
         return jsonify({"error": str(e)})
+    
+@app.route('/callback', methods=['POST'])
+def callback():
+    data = request.json
+    print(f"Callback received data: {data}")
+    # Handle the callback data as needed
+    return jsonify({"status": "received"})
 
 if __name__ == '__main__':
     load_dotenv()

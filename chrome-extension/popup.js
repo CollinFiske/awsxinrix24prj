@@ -32,11 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
         })
           .then((response) => response.json())
           .then((data) => {
-            if (data.response) {
+            print("Received data:" + data);
               outputParagraph.textContent = "Response: " + data.response;
-            } else {
-              outputParagraph.textContent = "Error: " + data.error;
-            }
           })
           .catch((error) => {
             outputParagraph.textContent = "Error sending data to Flask: " + error;
