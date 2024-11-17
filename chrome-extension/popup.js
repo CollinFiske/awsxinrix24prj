@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       outputParagraph.classList.add("hidden");
     }
-
     // Send the input and URL to Flask (adjusting for the new field names)
     fetch("http://127.0.0.1:5000/input", {
       method: "POST",
