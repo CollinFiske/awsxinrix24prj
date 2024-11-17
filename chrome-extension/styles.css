@@ -1,0 +1,77 @@
+body {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    width: 300px;
+    padding: 20px;
+    margin: 0;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #e0e0e0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: #3d3d3d;
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #666666;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+input[type="text"]::placeholder {
+    color: #888888;
+}
+
+button {
+    background-color: #4a4a4a;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #5a5a5a;
+}
+
+button:active {
+    background-color: #404040;
+    transform: translateY(1px);
+}
+
+/* For accessibility - keyboard focus styles */
+button:focus-visible {
+    outline: 2px solid #666666;
+    outline-offset: 2px;
+}
+
+/* Optional error state */
+.error {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 4px;
+}

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "INRIX24'",
+  "name": "AskRon",
   "version": "1.0",
-  "description": "A Chrome extension that interacts with a Flask app for INRIX Hackathon 2024.",
+  "description": "AskRon - A Chrome extension that interacts with a Flask server to assist users in navigating webpages. Made for INRIX Hackathon 2024.",
   "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["http://127.0.0.1:5000/*"],
   "icons": {
