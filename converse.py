@@ -8,7 +8,28 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 def process_user_message(user_message, web_name):
-    return f"{user_message} on the website {web_name}."
+    returnVal = """
+    
+    When responding, provide a direct URL if it can take the user to the relevant page on the website. If no such URL exists, give a detailed explanation of how to find the information on the site. 
+    Do not use quotation marks around URLs or website names.
+
+    Example 1:
+    **Input Question**: "The question is: How do I find the academic calendar? website: https://www.universityexample.edu](https://www.universityexample.edu"
+    **Output**: "You can find the academic calendar at https://www.universityexample.edu/academic-calendar](https://www.universityexample.edu/academic-calendar"
+
+    Example 2:
+    **Input Question**: "The question is: How do I change my password? website: https://www.serviceexample.com](https://www.serviceexample.com"
+    **Output**: "Navigate to 'Account Settings' by clicking your profile icon in the top-right corner, then select 'Security' and follow the instructions to change your password. Unfortunately, there is no direct URL to this page."
+
+    Example 3:
+    **Input Question**: "The question is: How do I find the spaghetti page? website: https://www.apple.com
+    **Output**: "I could not find this webpage, please ask another question!"
+
+    Now, answer the question:
+    """ + "The question is: " + user_message + " website: " + web_name
+
+
+    return returnVal
 
 @app.route('/input', methods=['POST'])
 def get_input():
@@ -30,7 +51,7 @@ def get_input():
         streaming_response = client.converse_stream(
             modelId=model_id,
             messages=conversation,
-            inferenceConfig={"maxTokens": 512, "temperature": 0.5, "topP": 0.9},
+            inferenceConfig={"maxTokens": 512, "temperature": 0.6, "topP": 0.6},
         )
 
         # Extract and print the streamed response text in real-time.
