@@ -1,12 +1,10 @@
+from flask import Flask, request, jsonify
+import os
 import boto3
 from botocore.exceptions import ClientError
-import os
 from dotenv import load_dotenv
 import requests
 
-from flask import Flask, request, jsonify
-
-# Initialize Flask app
 app = Flask(__name__)
 
 def process_user_message(user_message, web_name):
@@ -35,9 +33,9 @@ def process_user_message(user_message, web_name):
 
 @app.route('/converse', methods=['POST'])
 def get_input():
-    # Extract data from the incoming JSON request
-    user_message = request.json.get('user_message')
-    web_name = request.json.get('web_name')
+    data = request.get_json()
+    user_message = data.get('user_message')
+    web_name = data.get('web_name')
 
     # Print the input values to the console for debugging
     print(f"Received user_message: {user_message}")
@@ -50,18 +48,13 @@ def get_input():
     # Process the data (example: just echoing the received message)
     processed_message = process_user_message(user_message, web_name)
 
-    # The model ID for the model you want to use (adjust the model ID accordingly)
-    model_id = "us.meta.llama3-2-3b-instruct-v1:0"  # Change if necessary
-
     conversation = [
         {
-            "role": "user",
             "content": [{"text": processed_message}],
         }
     ]
 
     try:
-        # Request to Bedrock API for streaming conversation
         streaming_response = client.converse_stream(
             modelId=model_id,
             messages=conversation,
@@ -78,7 +71,6 @@ def get_input():
         extension_url = "http://localhost:5001/extension_endpoint"  # Replace with your extension's endpoint
         requests.post(extension_url, json={"response": response_text})
         return jsonify({response_text})
-
 
     except (Exception) as e:
         return jsonify({"error": str(e)})
