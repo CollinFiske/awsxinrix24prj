@@ -11,6 +11,14 @@ body {
     display: none;
 }
 
+#userInput {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
