@@ -7,13 +7,14 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-def process_user_message(user_message):
-    return f"Processed message: {user_message}"
+def process_user_message(user_message, web_name):
+    return f"{user_message} on the website {web_name}."
 
 @app.route('/input', methods=['POST'])
 def get_input():
     user_message = request.json.get('user_message')
-    processed_message = process_user_message(user_message)
+    web_name = request.json.get('web_name')
+    processed_message = process_user_message(user_message, web_name)
     
     # The model ID for the model you want to use
     model_id = "us.meta.llama3-2-3b-instruct-v1:0"
