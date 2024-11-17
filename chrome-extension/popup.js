@@ -51,5 +51,4 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   submitButton.addEventListener("click", handleSubmit);
-  userForm.addEventListener("submit", handleSubmit);
 });
