@@ -12,8 +12,16 @@ def process_user_message(user_message, web_name):
 
 @app.route('/input', methods=['POST'])
 def get_input():
-    user_message = request.json.get('user_message')
-    web_name = request.json.get('web_name')
+    data = request.get_json()
+    user_message = data.get('user_message')
+    web_name = data.get('web_name') 
+
+    print(f"Received user_message: {user_message}")
+    print(f"Received web_name: {web_name}")
+
+    if not user_message and not web_name:
+        return jsonify({"error": "Missing user_message or web_name in request."}), 400
+    
     processed_message = process_user_message(user_message, web_name)
     
     # The model ID for the model you want to use

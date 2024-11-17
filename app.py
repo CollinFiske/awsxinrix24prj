@@ -1,20 +1,27 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS to allow communication from the extension
+CORS(app)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+def process_user_message(user_message, web_name):
+    return f"{user_message} on the website {web_name}."
 
-# Route to receive user input
-@app.route('/api/data', methods=['POST'])
-def receive_data():
-    data = request.json  # Parse JSON data from the request
-    user_input = data.get('prompt')  # Extract the 'prompt' field
-    print(f"Received from Chrome Extension: {user_input}")
-    return jsonify({"message": "Data received", "received_prompt": user_input})
+@app.route('/input', methods=['POST'])
+def get_input():
+    data = request.get_json()
+    user_message = data.get('user_message')
+    web_name = data.get('web_name') 
+
+    print(f"Received user_message: {user_message}")
+    print(f"Received web_name: {web_name}")
+
+    # Process the data and return a response
+    if user_message and web_name:
+        processed_message = process_user_message(user_message, web_name)
+        return jsonify({"message": processed_message})
+    else:
+        return jsonify({"error": "Missing user_message or web_name in request."}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
