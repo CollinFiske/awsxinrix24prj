@@ -28,9 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => {
         console.error("Error sending data to Flask:", error);
       });
-    const userValue = userInput.value; // Use a new variable to store the value
-
-    alert("Skibidi Sigma Mog Rizzler: " + userValue);
 
     userInput.value = ""; // Clear the input field
   });
