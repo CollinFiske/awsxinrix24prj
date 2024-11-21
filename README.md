@@ -5,7 +5,7 @@ The need for seamless, AI-powered assistance while browsing the web without swit
 ## What it does
 A Chrome extension that leverages Claude 3 Sonnet through AWS Bedrock to analyze web pages and answer questions in real-time, providing AI assistance directly within the browser.
 ## How we built it
-Built using Chrome's Extension Manifest V3, JavaScript for frontend and background services, and AWS Bedrock API integration for accessing Claude's capabilities through a clean popup interface.
+Built using Chrome's Extension Manifest V3, JavaScript for frontend and background services, flask for backend, and AWS Bedrock API integration for accessing Claude's capabilities through a clean popup interface.
 ## Challenges We ran into
 Implementing secure AWS authentication and managing the complex state between the popup, background service worker, and content scripts while maintaining a smooth user experience.
 ## Accomplishments that we're proud of
